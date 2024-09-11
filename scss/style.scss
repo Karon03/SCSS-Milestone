@@ -1,0 +1,143 @@
+// Import partials
+@import 'variables';
+@import 'mixins';
+@import 'base';
+
+// Main styles
+
+#game-board {
+    margin-top: $spacing-small;
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    gap: 0;
+}
+
+.scores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $text-color;
+    font-size: 20px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid $border-color;
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    @include rounded-corners(10px);
+
+    &:hover {
+        background-color: $hover-bg-color;
+    }
+
+    &.placed {
+        animation: fadeIn 0.5s;
+    }
+
+    
+    & {
+        @if $text-color == #394955 {
+            border: 2px solid darken($border-color, 10%);
+        } @else {
+            border: 1px solid lighten($border-color, 10%);
+        }
+    }
+}
+
+.reset-button {
+    @include button-style($button-bg-color, $button-text-color, true);
+    margin-top: $spacing-small;
+    
+    
+    & {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 13px;
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    .modal-content {
+        background-color: $modal-bg-color;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        text-align: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        .close {
+            color: black;
+            float: right;
+            font-size: 35px;
+            font-weight: bold;
+
+            &:hover,
+            &:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+        }
+
+        .header {
+            font-size: 1.5rem; 
+            margin-bottom: $spacing-small;
+        }
+
+        .footer {
+            font-size: 0.875rem; 
+            margin-top: $spacing-small;
+            border-top: 1px solid $border-color;
+            padding-top: $spacing-small;
+        }
+    }
+}
+
+// Media queries using @each
+$breakpoints: (small: 576px, medium: 768px, large: 992px);
+
+@each $device, $size in $breakpoints {
+    @media (min-width: $size) {
+        .container {
+            @if $device == large {
+                padding: 1.25rem; // Equivalent of 20px
+            } @else {
+                padding: 0.625rem; // Equivalent of 10px
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.button {
+    @include validate-color(#123456); // This will be valid
+    // Removed the invalid color `123456` to avoid the error
+}
